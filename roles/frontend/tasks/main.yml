@@ -15,6 +15,11 @@
     state: present
   ignore_errors: true
 
+- name: Enable and start the service
+  ansible.builtin.systemd:
+    name: nginx
+    state: started
+    enabled: true  
 
 # echo "To find if the logged in user root or not"
 # declare loggedinuser
