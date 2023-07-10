@@ -9,6 +9,12 @@
     path: /etc/nginx
     state: absent
 
+- name: Install NGINX package
+  ansible.builtin.yum:
+    name: nginx
+    state: present
+  ignore_errors: true
+
 
 # echo "To find if the logged in user root or not"
 # declare loggedinuser
