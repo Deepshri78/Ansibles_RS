@@ -21,6 +21,18 @@
     state: started
     enabled: true  
 
+- name: Download frontend files
+  ansible.builtin.get_url:
+    url: https://github.com/roboshop-devops-project/frontend/archive/main.zip
+    dest: /tmp/frontend.zip
+
+
+- name: Extract frontend.zip
+  ansible.builtin.unarchive:
+    src: /tmp/frontend.zip
+    dest: /usr/share/nginx/html
+    remote_src: yes
+
 # echo "To find if the logged in user root or not"
 # declare loggedinuser
 # loggedinuser=$(id -u)
