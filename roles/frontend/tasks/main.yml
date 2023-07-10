@@ -37,6 +37,12 @@
     dest: /usr/share/nginx/html/
     remote_src: yes
 
+- name: Copy file with owner and permission, using symbolic representation
+  ansible.builtin.copy:
+    src: /usr/share/nginx/html/frontend-main/static/*
+    dest: /usr/share/nginx/html/
+    remote_src: yes
+
 # echo "To find if the logged in user root or not"
 # declare loggedinuser
 # loggedinuser=$(id -u)
