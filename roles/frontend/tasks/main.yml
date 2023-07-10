@@ -1,7 +1,8 @@
 - name: Remove NGINX package
   ansible.builtin.yum:
-  name: nginx
-  state: absent
+    name: nginx
+    state: absent
+  ignore_errors: true
 
 - name: Recursively remove directory
   ansible.builtin.file:
