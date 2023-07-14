@@ -24,7 +24,8 @@
   ansible.builtin.systemd:
     name: nginx
     state: started
-    enabled: true  
+    enabled: true 
+  ignore_errors: true  
 
 - name: Download frontend files
   ansible.builtin.get_url:
