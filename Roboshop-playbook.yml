@@ -10,11 +10,11 @@
 #  roles:
 #   - cart
 
-- name: Setting up catalogue
-  hosts: catalogue
-  become: true
-  roles:
-   - catalogue
+#- name: Setting up catalogue
+#  hosts: catalogue
+#  become: true
+#  roles:
+#   - catalogue
 
 - name: Setting up user
   hosts: user
