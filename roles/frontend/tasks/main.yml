@@ -4,22 +4,21 @@
     regexp: '^SELINUX='
     line: SELINUX=disabled
     
-- name: Remove NGINX package
+- name: Remove the Nginx package
   ansible.builtin.yum:
     name: nginx
     state: absent
-  ignore_errors: true
+  ignore_errors: true  
 
 - name: Recursively remove directory
   ansible.builtin.file:
-    path: /etc/nginx
+    path: /etc/nginx/*
     state: absent
 
 - name: Install NGINX package
   ansible.builtin.yum:
     name: nginx
     state: present
-  ignore_errors: true
 
 - name: Enable and start the service
   ansible.builtin.systemd:
@@ -32,10 +31,12 @@
     url: https://github.com/roboshop-devops-project/frontend/archive/main.zip
     dest: /tmp/frontend.zip
 
+
 - name: Recursively remove directory
   ansible.builtin.file:
     path: /usr/share/nginx/html/*
     state: absent
+
 
 - name: Extract frontend.zip
   ansible.builtin.unarchive:
@@ -43,91 +44,24 @@
     dest: /usr/share/nginx/html/
     remote_src: yes
 
+
 - name: Copy files
   ansible.builtin.copy:
     src: /usr/share/nginx/html/frontend-main/static/
     dest: /usr/share/nginx/html/
     remote_src: yes
 
-- name: Copy configuration file
+
+- name: Copy file 
   ansible.builtin.copy:
-    src: /usr/share/nginx/html/frontend-main/localhost.conf
-    dest: /etc/nginx/roboshop.conf 
-    remote_src: yes
+    src: roboshop.conf
+    dest: /etc/nginx/default.d/
 
 
-# echo "To find if the logged in user root or not"
-# declare loggedinuser
-# loggedinuser=$(id -u)
-# if [ $loggedinuser -ne 0 ]; then
-# echo "Logged in user is not root user."
-# exit 1
-# fi
+- name: Enable and start the service
+  ansible.builtin.systemd:
+    name: nginx
+    state: started
+    enabled: true    
+    daemon_reload: yes
 
-# #echo " To check whether the last command ran successfully or not"
-
-# StatusCheck () {
-
-# if [ $1 -eq 0 ]; then
-# echo -e "\e[32m Last command ran successfully. \e[0m"
-# else
-# echo -e "\e[31m Last command did not run successfully. \e[0m"
-# exit 1
-# fi
-
-# }
-
-# APPREQ () {
-
-#  echo -e "\e[32m  To verify whether Roboshop user already exists or not"
-
-#  id roboshop &>>${LOG_FILE}
-
-#  if [ $? -ne 0 ]; then
-#  echo -e "\e[32m  Logged in user is not roboshop, need to add roboshop user. \e[0m"
-#  useradd roboshop &>>${LOG_FILE}
-#  StatusCheck $?
-#  fi
-
-#  echo -e "\e[32m  Once roboshop user is added, need to download files for specific ${COMPONENT} \e[0m"
-
-#  curl -s -L -o /tmp/${COMPONENT}.zip "https://github.com/roboshop-devops-project/${COMPONENT}/archive/main.zip" &>>${LOG_FILE}
-  
-
-#   if [ ${COMPONENT} == frontend ]; then
-#     echo -e "\e[32m  Stop NGINX service if already running. \e[0m"
-#     yum install nginx -y
-#     #systemctl stop ${COMPONENT}.service &>>${LOG_FILE}
-#     StatusCheck $?
-
-#     echo -e "\e[32m  Change current directory. \e[0m"
-#     cd /usr/share/nginx/html &>>${LOG_FILE}
-#     StatusCheck $?
-
-#     echo -e "\e[32m  Delete older files if any. \e[0m"
-#     rm -rf * &>>${LOG_FILE}
-#     StatusCheck $?
-
-#     echo -e "\e[32m  Unzip downloaded file in current directory. \e[0m"
-#     unzip /tmp/${COMPONENT}.zip &>>${LOG_FILE}
-#     StatusCheck $?
-
-#     echo -e "\e[32m  Remove/Rename main folder. \e[0m"
-#     mv ${COMPONENT}-main/static/* . &>>${LOG_FILE}
-#     StatusCheck $?
-
-#     echo -e "\e[32m  Remove/rename configuration file. \e[0m"
-#     mv ${COMPONENT}-main/localhost.conf /etc/nginx/default.d/roboshop.conf &>>${LOG_FILE}
-#     StatusCheck $?
-
-#     echo -e "\e[32m  Start the service. \e[0m"
-#     systemctl start nginx &>>${LOG_FILE}
-#     StatusCheck $?
-
-  
-
-#  fi
- 
-#  }
-
- 
