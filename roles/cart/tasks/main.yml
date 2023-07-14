@@ -41,46 +41,44 @@
     force: true
 
 - name: Unarchive a file that is already on the remote machine
-  ansible.builtin.include_vars: 
-    file: mail.yml
   ansible.builtin.unarchive:
-    src: /tmp/{{COMPONENT}}.zip
+    src: /tmp/cart.zip
     dest: /tmp/
     remote_src: yes
 
 - name: Download NodeJS repo file and place it a directory
-  ansible.builtin.shell: rm -rf /tmp/{{COMPONENT}} && mv /tmp/{{COMPONENT}}-main /tmp/{{COMPONENT}} && rm -rf /home/roboshop/{{COMPONENT}}/* && chown roboshop:roboshop /home/roboshop/{{COMPONENT}}
+  ansible.builtin.shell: rm -rf /tmp/cart && mv /tmp/cart-main /tmp/cart && rm -rf /home/roboshop/cart/* && chown roboshop:roboshop /home/roboshop/cart
   ignore_errors: true 
 
 
 - name: Copy files
   ansible.builtin.copy:
-    src: /tmp/{{COMPONENT}}/
-    dest: /home/roboshop/{{COMPONENT}}/
+    src: /tmp/cart/
+    dest: /home/roboshop/cart/
     remote_src: yes
   become_user: roboshop
 
 - name: Install packages based on package.json.
   npm:
-    path: /home/roboshop/{{COMPONENT}}
+    path: /home/roboshop/cart
   become_user: roboshop
 
 - name: Replace CARTENDPOINT/cart.roboshop.internal
   ansible.builtin.replace:
-    path: /home/roboshop/{{COMPONENT}}/systemd.service
+    path: /home/roboshop/cart/systemd.service
     regexp: 'CARTENDPOINT'
     replace: '10.0.0.6'
 
 - name: Copy files
   ansible.builtin.copy:
-    src: /home/roboshop/{{COMPONENT}}/systemd.service
-    dest: /etc/systemd/system/{{COMPONENT}}.service
+    src: /home/roboshop/cart/systemd.service
+    dest: /etc/systemd/system/cart.service
     remote_src: yes
 
 
 - name: Enable and start the service
   ansible.builtin.systemd:
-    name: "{{COMPONENT}}"
+    name: "cart"
     state: restarted
     enabled: true    
     daemon_reload: yes 
