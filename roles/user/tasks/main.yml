@@ -67,7 +67,7 @@
   ansible.builtin.replace:
     path: /home/roboshop/{{COMPONENT}}/systemd.service
     regexp: '{{COMPONENT}}ENDPOINT'
-    replace: '10.0.0.6'
+    replace: '10.0.0.8'
 
 - name: Copy files
   ansible.builtin.copy:
