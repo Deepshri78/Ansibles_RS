@@ -25,12 +25,12 @@
 
 - name: Download files
   ansible.builtin.get_url:
-    url: https://github.com/roboshop-devops-project/cart/archive/main.zip
-    dest: /tmp/cart.zip
+    url: https://github.com/roboshop-devops-project/{{COMPONENT}}/archive/main.zip
+    dest: /tmp/{{COMPONENT}}.zip
 
 - name: Stop the service
   ansible.builtin.systemd:
-    name: cart
+    name: {{COMPONENT}}
     state: stopped 
   ignore_errors: true    
 
@@ -42,43 +42,43 @@
 
 - name: Unarchive a file that is already on the remote machine
   ansible.builtin.unarchive:
-    src: /tmp/cart.zip
+    src: /tmp/{{COMPONENT}}.zip
     dest: /tmp/
     remote_src: yes
 
 - name: Download NodeJS repo file and place it a directory
-  ansible.builtin.shell: rm -rf /tmp/cart && mv /tmp/cart-main /tmp/cart && rm -rf /home/roboshop/cart/* && chown roboshop:roboshop /home/roboshop/cart
+  ansible.builtin.shell: rm -rf /tmp/{{COMPONENT}} && mv /tmp/{{COMPONENT}}-main /tmp/{{COMPONENT}} && rm -rf /home/roboshop/{{COMPONENT}}/* && chown roboshop:roboshop /home/roboshop/{{COMPONENT}}
   ignore_errors: true 
 
 
 - name: Copy files
   ansible.builtin.copy:
-    src: /tmp/cart/
-    dest: /home/roboshop/cart/
+    src: /tmp/{{COMPONENT}}/
+    dest: /home/roboshop/{{COMPONENT}}/
     remote_src: yes
   become_user: roboshop
 
 - name: Install packages based on package.json.
   npm:
-    path: /home/roboshop/cart
+    path: /home/roboshop/{{COMPONENT}}
   become_user: roboshop
 
-- name: Replace CARTENDPOINT/cart.roboshop.internal
+- name: Replace {{COMPONENT}}ENDPOINT/{{COMPONENT}}.roboshop.internal
   ansible.builtin.replace:
-    path: /home/roboshop/cart/systemd.service
-    regexp: 'CARTENDPOINT'
+    path: /home/roboshop/{{COMPONENT}}/systemd.service
+    regexp: '{{COMPONENT}}ENDPOINT'
     replace: '10.0.0.6'
 
 - name: Copy files
   ansible.builtin.copy:
-    src: /home/roboshop/cart/systemd.service
-    dest: /etc/systemd/system/cart.service
+    src: /home/roboshop/{{COMPONENT}}/systemd.service
+    dest: /etc/systemd/system/{{COMPONENT}}.service
     remote_src: yes
 
 
 - name: Enable and start the service
   ansible.builtin.systemd:
-    name: "cart"
+    name: "{{COMPONENT}}"
     state: restarted
     enabled: true    
     daemon_reload: yes 
