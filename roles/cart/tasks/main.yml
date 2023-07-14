@@ -25,12 +25,12 @@
 
 - name: Download files
   ansible.builtin.get_url:
-    url: https://github.com/roboshop-devops-project/{{COMPONENT}}/archive/main.zip
-    dest: /tmp/{{COMPONENT}}.zip
+    url: https://github.com/roboshop-devops-project/cart/archive/main.zip
+    dest: /tmp/cart.zip
 
 - name: Stop the service
   ansible.builtin.systemd:
-    name: "{{COMPONENT}}"
+    name: cart
     state: stopped 
   ignore_errors: true    
 
@@ -41,6 +41,8 @@
     force: true
 
 - name: Unarchive a file that is already on the remote machine
+  ansible.builtin.include_vars: 
+    file: mail.yml
   ansible.builtin.unarchive:
     src: /tmp/{{COMPONENT}}.zip
     dest: /tmp/
