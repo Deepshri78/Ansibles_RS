@@ -24,7 +24,8 @@
   ignore_errors: true 
 
 - name: Download {{COMPONENT}} files
-  vars: vars
+  vars_files: 
+      - mail.yml
   ansible.builtin.get_url:
     url: https://github.com/roboshop-devops-project/{{COMPONENT}}/archive/main.zip
     dest: /tmp/{{COMPONENT}}.zip
