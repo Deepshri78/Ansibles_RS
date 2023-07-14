@@ -3,3 +3,9 @@
   become: true
   roles:
    - frontend
+
+- name: Setting up cart
+  hosts: cart
+  become: true
+  roles:
+   - cart
