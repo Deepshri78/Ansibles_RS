@@ -1,13 +1,13 @@
-- name: Setting up frontend
-  hosts: frontend
-  become: true
-  roles:
-   - frontend
+#- name: Setting up frontend
+ # hosts: frontend
+  #become: true
+  #roles:
+ #  - frontend
 
 - name: Setting up cart
   hosts: cart
-  vars_files:
-    - mail.yml
+  ansible.builtin.include_vars: 
+    file: mail.yml
   become: true
   roles:
    - cart
