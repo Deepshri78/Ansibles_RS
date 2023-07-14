@@ -6,8 +6,8 @@
 
 - name: Setting up cart
   hosts: cart
-  ansible.builtin.include_vars: 
-    file: mail.yml
   become: true
   roles:
    - cart
+  ansible.builtin.include_vars: 
+    file: mail.yml
