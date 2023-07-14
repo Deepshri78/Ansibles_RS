@@ -6,6 +6,8 @@
 
 - name: Setting up cart
   hosts: cart
+  vars_files:
+    - mail.yml
   become: true
   roles:
    - cart
