@@ -15,3 +15,9 @@
   become: true
   roles:
    - catalogue
+
+- name: Setting up user
+  hosts: user
+  become: true
+  roles:
+   - user
