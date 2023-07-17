@@ -1,0 +1,39 @@
+- name: Ensure SELinux is set to disabled mode
+  ansible.builtin.lineinfile:
+    path: /etc/selinux/config
+    regexp: '^SELINUX='
+    line: SELINUX=disabled
+
+- name: Install Redis repo on CentOS-8
+  ansible.builtin.shell: dnf install https://rpms.remirepo.net/enterprise/remi-release-8.rpm -y --skip-broken
+  ignore_errors: true  
+
+- name: Install Redis module
+  ansible.builtin.shell: dnf module enable {{COMPONENT}}:remi-6.2 -y
+  ignore_errors: true
+
+
+- name: Install the  redis package
+  ansible.builtin.yum:
+    name: "{{COMPONENT}}"
+    state: present
+
+- name: Stop the service
+  ansible.builtin.systemd:
+    name: "{{COMPONENT}}"
+    state: stopped 
+  ignore_errors: true      
+
+
+- name: Replace loop back address 127.0.0.1 with 0.0.0.0 on Redis config 
+  ansible.builtin.replace:
+    path: /etc/{{COMPONENT}}.conf
+    regexp: '127.0.0.1'
+    replace: '0.0.0.0'  
+
+- name: Enable and start the service
+  ansible.builtin.systemd:
+    name: "{{COMPONENT}}"
+    state: started
+    enabled: true    
+    daemon_reload: yes     
