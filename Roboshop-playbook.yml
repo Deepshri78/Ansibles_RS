@@ -35,8 +35,14 @@
 #    - mongodb
 
 
-- name: Setting up Rabbitmq
-  hosts: rabbitmq
+#- name: Setting up Rabbitmq
+#  hosts: rabbitmq
+#  become: true
+#  roles:
+#    - rabbitmq
+
+- name: Setting up mysql
+  hosts: mysql
   become: true
   roles:
-    - rabbitmq
+    - mysql
