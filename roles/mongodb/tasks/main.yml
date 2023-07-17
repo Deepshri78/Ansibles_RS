@@ -60,6 +60,6 @@
     dest: /tmp/
     remote_src: yes
 
-- name: Load the DB into Moongo 
+- name: Load the DB into Mongo 
   ansible.builtin.shell: mongo < /tmp/{{COMPONENT}}-main/catalogue.js &&  mongo < /tmp/{{COMPONENT}}-main/users.js
 

@@ -28,8 +28,15 @@
 #  roles:
 #    - redis
 
-- name: Setting up mongodb
-  hosts: mongodb
+#- name: Setting up mongodb
+#  hosts: mongodb
+#  become: true
+#  roles:
+#    - mongodb
+
+
+- name: Setting up Rabbitmq
+  hosts: rabbitmq
   become: true
   roles:
-    - mongodb
+    - rabbitmq
