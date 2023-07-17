@@ -6,7 +6,7 @@
 
 - name: Install the  MongoDB package
   ansible.builtin.yum:
-    name: "{{COMPONENT}}"-org
+    name: "{{COMPONENT}}-org"
     state: present
 
 - name: Enable and start the service
