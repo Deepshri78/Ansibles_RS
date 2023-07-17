@@ -1,0 +1,70 @@
+- name: Download mongodb repo file and place it a directory
+  ansible.builtin.get_url:
+    url: https://raw.githubusercontent.com/roboshop-devops-project/{{COMPONENT}}/main/mongo.repo
+    dest: /etc/yum.repos.d/{{COMPONENT}}.repo
+
+
+- name: Install the  MongoDB package
+  ansible.builtin.yum:
+    name: "{{COMPONENT}}"-org
+    state: present
+
+- name: Enable and start the service
+  ansible.builtin.systemd:
+    name: mongod
+    state: started
+    enabled: true    
+    daemon_reload: yes    
+
+
+- name: Replace loop back address 127.0.0.1 with 0.0.0.0 on MongoDB config 
+  ansible.builtin.replace:
+    path: /etc/mongod.conf
+    regexp: '127.0.0.1'
+    replace: '0.0.0.0'
+
+
+- name: Restart the MongoDB service
+  ansible.builtin.systemd:
+    name: mongod
+    state: restarted
+
+
+- name: Recursively remove file
+  ansible.builtin.file:
+    path: /tmp/{{COMPONENT}}
+    state: absent
+    force: true 
+
+- name: Recursively remove file
+  ansible.builtin.file:
+    path: /tmp/{{COMPONENT}}.zip
+    state: absent
+    force: true 
+
+
+- name: Recursively remove directory
+  ansible.builtin.file:
+    path: /tmp/{{COMPONENT}}-main
+    state: absent    
+    force: true
+
+- name: Download mongodb database file and place it a directory
+  ansible.builtin.get_url:
+    url: https://github.com/roboshop-devops-project/{{COMPONENT}}/archive/main.zip
+    dest: /tmp/{{COMPONENT}}.zip
+
+- name: Unarchive a file that is already on the remote machine
+  ansible.builtin.unarchive:
+    src: /tmp/{{COMPONENT}}.zip
+    dest: /tmp/
+    remote_src: yes
+
+- name: Load the DB into Moongo 
+  ansible.builtin.shell: mongo < /tmp/{{COMPONENT}}-main/catalogue.js &&  mongo < /tmp/{{COMPONENT}}-main/users.js
+
+
+- name: Import common role and run promethus-node task 
+  ansible.builtin.include_role:
+    name: common
+    tasks_from: promethus-node

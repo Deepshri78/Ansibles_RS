@@ -22,8 +22,14 @@
 #  roles:
 #   - user
 
-- name: Setting up redis
-  hosts: redis
+#- name: Setting up redis
+#  hosts: redis
+#  become: true
+#  roles:
+#    - redis
+
+- name: Setting up mongodb
+  hosts: mongodb
   become: true
   roles:
-    - redis
+    - mongodb
