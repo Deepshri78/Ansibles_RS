@@ -46,14 +46,14 @@
 #  roles:
 #    - mysql
 
-- name: Setting up payment
-  hosts: payment
-  become: true
-  roles:
-    - payment
-
-#- name: Setting up shipping
-#  hosts: shipping
+#- name: Setting up payment
+#  hosts: payment
 #  become: true
 #  roles:
-#    - shipping
+#    - payment
+
+- name: Setting up shipping
+  hosts: shipping
+  become: true
+  roles:
+    - shipping
