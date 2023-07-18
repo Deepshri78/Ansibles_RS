@@ -1,3 +1,9 @@
+- name: Ensure SELinux is set to disabled mode
+  ansible.builtin.lineinfile:
+    path: /etc/selinux/config
+    regexp: '^SELINUX='
+    line: SELINUX=disabled
+
 - name: Install mysql repo on CentOS-8
   ansible.builtin.shell: curl -s -L -o /etc/yum.repos.d/mysql.repo https://raw.githubusercontent.com/roboshop-devops-project/mysql/main/mysql.repo
   ignore_errors: true  

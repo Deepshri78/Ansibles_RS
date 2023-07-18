@@ -1,3 +1,9 @@
+- name: Ensure SELinux is set to disabled mode
+  ansible.builtin.lineinfile:
+    path: /etc/selinux/config
+    regexp: '^SELINUX='
+    line: SELINUX=disabled
+
 - name: Download Rabbitmq repo on CentOS-8
   ansible.builtin.shell: curl -s https://packagecloud.io/install/repositories/rabbitmq/erlang/script.rpm.sh
 

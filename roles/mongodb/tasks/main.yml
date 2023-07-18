@@ -1,3 +1,9 @@
+- name: Ensure SELinux is set to disabled mode
+  ansible.builtin.lineinfile:
+    path: /etc/selinux/config
+    regexp: '^SELINUX='
+    line: SELINUX=disabled
+
 - name: Download mongodb repo file and place it a directory
   ansible.builtin.get_url:
     url: https://raw.githubusercontent.com/roboshop-devops-project/{{COMPONENT}}/main/mongo.repo
