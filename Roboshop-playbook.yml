@@ -40,12 +40,6 @@
   roles:
     - rabbitmq
 
-- name: Setting up mysql
-  hosts: mysql
-  become: true
-  roles:
-    - mysql
-
 - name: Setting up payment
   hosts: payment
   become: true
@@ -63,3 +57,11 @@
   become: true
   roles:
     - dispatch
+
+#- name: Setting up mysql
+#  hosts: mysql
+#  hosts: mysql
+#  become: true
+#  roles:
+#   - mysql
+
