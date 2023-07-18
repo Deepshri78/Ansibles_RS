@@ -20,7 +20,8 @@
 - name: Stop the service
   ansible.builtin.systemd:
     name: "{{COMPONENT}}"
-    state: stopped     
+    state: stopped  
+  ignore_errors: true   
 
 - name: Recursively remove file
   ansible.builtin.file:
