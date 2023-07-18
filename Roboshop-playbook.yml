@@ -52,8 +52,14 @@
 #  roles:
 #    - payment
 
-- name: Setting up shipping
-  hosts: shipping
+#- name: Setting up shipping
+#  hosts: shipping
+#  become: true
+#  roles:
+#    - shipping
+
+- name: Setting up dispatch
+  hosts: dispatch
   become: true
   roles:
-    - shipping
+    - dispatch

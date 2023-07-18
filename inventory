@@ -10,20 +10,24 @@
 [user]
 10.0.0.8
 
-[redis]
-10.0.0.14
-
-[mongodb]
-10.0.0.12
-
-[rabbitmq]
-10.0.0.15
-
-[mysql]
-10.0.0.13
-
 [payment]
 10.0.0.9
 
 [shipping]
 10.0.0.10
+
+[dispatch]
+10.0.0.11
+
+[mongodb]
+10.0.0.12
+
+[mysql]
+10.0.0.13
+
+[redis]
+10.0.0.14
+
+[rabbitmq]
+10.0.0.15
+
