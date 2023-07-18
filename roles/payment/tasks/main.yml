@@ -36,10 +36,22 @@
     remote_src: yes
 
 - name: Download NodeJS repo file and place it a directory
-  ansible.builtin.shell: rm -rf /tmp/{{COMPONENT}} && mv /tmp/{{COMPONENT}}-main /tmp/{{COMPONENT}} && rm -rf /home/roboshop/{{COMPONENT}}/* && chown roboshop:roboshop /home/roboshop/{{COMPONENT}}
+  ansible.builtin.shell: rm -rf /tmp/{{COMPONENT}}  
   ignore_errors: true 
 
+- name: Download NodeJS repo file and place it a directory
+  ansible.builtin.shell: mv /tmp/{{COMPONENT}}-main /tmp/{{COMPONENT}} 
+  ignore_errors: true
 
+
+- name: Download NodeJS repo file and place it a directory
+  ansible.builtin.shell: rm -rf /home/roboshop/{{COMPONENT}}/*
+  ignore_errors: true
+
+- name: Download NodeJS repo file and place it a directory
+  ansible.builtin.shell: chown roboshop:roboshop /home/roboshop/{{COMPONENT}}
+  ignore_errors: true
+  
 - name: Copy files
   ansible.builtin.copy:
     src: /tmp/{{COMPONENT}}/
@@ -59,28 +71,28 @@
   ansible.builtin.replace:
     path: /home/roboshop/{{COMPONENT}}/systemd.service
     regexp: 'REDIS_ENDPOINT'
-    replace: '10.0.0.12'
+    replace: '10.0.0.14'
 
 
 - name: Replace MONGO_ENDPOINT/mongodb.roboshop.internal
   ansible.builtin.replace:
     path: /home/roboshop/{{COMPONENT}}/systemd.service
     regexp: 'MONGO_ENDPOINT'
-    replace: 'mongodb.roboshop.internal'
+    replace: '10.0.0.12'
 
 
 - name: Replace CATALOGUE_ENDPOINT/catalogue.roboshop.internal
   ansible.builtin.replace:
     path: /home/roboshop/{{COMPONENT}}/systemd.service
     regexp: 'CATALOGUE_ENDPOINT'
-    replace: 'catalogue.roboshop.internal'
+    replace: '10.0.0.6'
 
 
 - name: Replace MONGO_DNSNAME/mongodb.roboshop.internal
   ansible.builtin.replace:
     path: /home/roboshop/{{COMPONENT}}/systemd.service
     regexp: 'MONGO_DNSNAME'
-    replace: 'mongodb.roboshop.internal'
+    replace: '10.0.0.12'
 
 
 
@@ -88,38 +100,32 @@
   ansible.builtin.replace:
     path: /home/roboshop/{{COMPONENT}}/systemd.service
     regexp: 'CARTENDPOINT'
-    replace: 'cart.roboshop.internal'
+    replace: '10.0.0.7'
 
 - name: Replace DBHOST/mysql.roboshop.internal
   ansible.builtin.replace:
     path: /home/roboshop/{{COMPONENT}}/systemd.service
     regexp: 'DBHOST'
-    replace: 'mysql.roboshop.internal'
+    replace: '10.0.0.13'
 
 - name: Replace CARTHOST/cart.roboshop.internal
   ansible.builtin.replace:
     path: /home/roboshop/{{COMPONENT}}/systemd.service
     regexp: 'CARTHOST'
-    replace: 'cart.roboshop.internal'
+    replace: '10.0.0.7'
 
 - name: Replace USERHOST/user.roboshop.internal
   ansible.builtin.replace:
     path: /home/roboshop/{{COMPONENT}}/systemd.service
     regexp: 'USERHOST'
-    replace: 'user.roboshop.internal'
+    replace: '10.0.0.8'
 
-- name: Replace USERHOST/user.roboshop.internal
-  ansible.builtin.replace:
-    path: /home/roboshop/{{COMPONENT}}/systemd.service
-    regexp: 'USERHOST'
-    replace: 'user.roboshop.internal'
 
-    
 - name: Replace AMQPHOST/rabbitmq.roboshop.internal
   ansible.builtin.replace:
     path: /home/roboshop/{{COMPONENT}}/systemd.service
     regexp: 'AMQPHOST'
-    replace: 'rabbitmq.roboshop.internal'
+    replace: '10.0.0.15'
 
 
 - name: Copy files
