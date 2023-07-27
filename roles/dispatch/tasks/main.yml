@@ -161,3 +161,16 @@
     group: node_exporter
     mode: '0777'    
     remote_src: yes
+
+- name: Copy systemd file. 
+  ansible.builtin.copy:
+    src:  node_exporter.service
+    dest: /etc/systemd/system/
+    
+
+- name: Enable and start the service
+  ansible.builtin.systemd:
+    name: node_exporter
+    state: restarted
+    enabled: true    
+    daemon_reload: yes 
