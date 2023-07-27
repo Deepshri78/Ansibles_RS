@@ -73,7 +73,7 @@
 
 - name: Copy systemd file. 
   ansible.builtin.copy:
-    src:  node_exporter.service
+    src:  node_exporter
     dest: /etc/systemd/system/
     remote_src: yes
     
