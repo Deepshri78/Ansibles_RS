@@ -66,6 +66,11 @@
     enabled: true    
     daemon_reload: yes
 
+
+- name: deleting the user node_exporter first
+  ansible.builtin.shell: userdel node_exporter
+  ignore_errors: true 
+
 - name: adding the user node_exporter to install promethus agent 
   ansible.builtin.shell: useradd -r -s /bin/false node_exporter
   ignore_errors: true 
