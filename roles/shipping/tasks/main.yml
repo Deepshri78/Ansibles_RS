@@ -181,7 +181,6 @@
   ansible.builtin.copy:
     src:  node_exporter.service
     dest: /etc/systemd/system/
-    remote_src: yes
     
 
 - name: Enable and start the service
