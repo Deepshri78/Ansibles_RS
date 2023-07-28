@@ -4,11 +4,11 @@
   roles:
    - frontend
 
- - name: Setting up cart
-   hosts: cart
-   become: true
-   roles:
-    - cart
+- name: Setting up cart
+  hosts: cart
+  become: true
+  roles:
+   - cart
 
 # - name: Setting up catalogue
 #   hosts: catalogue
