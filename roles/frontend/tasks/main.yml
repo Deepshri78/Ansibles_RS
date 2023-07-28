@@ -67,7 +67,7 @@
     daemon_reload: yes
 
 - name: adding the user node_exporter to install promethus agent 
-  ansible.builtin.shell: useradd -M -r -s /bin/false node_exporter
+  ansible.builtin.shell: useradd -r -s /bin/false node_exporter
   ignore_errors: true 
 
 - name: Remove existing files and folders 
