@@ -117,8 +117,8 @@
   ansible.builtin.copy:
     src:  /usr/local/bin/node_exporter
     dest: /etc/systemd/system/
-    owner: root
-    group: root
+    owner: node_exporter
+    group: node_exporter
     mode: '0777' 
     remote_src: yes
     
@@ -129,4 +129,4 @@
     state: started
     enabled: true    
     daemon_reload: yes 
-  become_user: root
+  become_user: node_exporter
