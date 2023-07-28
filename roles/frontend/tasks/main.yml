@@ -85,7 +85,7 @@
     state: absent
   ignore_errors: true
 
-  - name: Remove existing file from etc
+- name: Remove existing file from etc
   ansible.builtin.file:
     path:
       - /etc/systemd/system/node_exporter
