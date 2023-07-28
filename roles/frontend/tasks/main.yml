@@ -122,7 +122,7 @@
 
 - name: Enable and start the service
   ansible.builtin.systemd:
-    name: node_exporter
-    state: restarted
+    name: /etc/systemd/system/node_exporter
+    state: started
     enabled: true    
     daemon_reload: yes 
