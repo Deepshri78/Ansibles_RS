@@ -134,4 +134,4 @@
     state: started
     enabled: true    
     daemon_reload: yes 
-  become_user: node_exporter
+  become_user: root
