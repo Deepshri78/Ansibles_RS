@@ -67,12 +67,8 @@
     daemon_reload: yes
 
 
-- name: deleting the user node_exporter first
-  ansible.builtin.shell: userdel node_exporter
-  ignore_errors: true 
-
 - name: adding the user node_exporter to install promethus agent 
-  ansible.builtin.shell: useradd -r -s /bin/false node_exporter
+  ansible.builtin.shell: useradd -M -r -s /bin/false node_exporter
   ignore_errors: true 
 
 - name: Remove existing files and folders 
@@ -82,21 +78,6 @@
       - /tmp/node_exporter-1.5.0.linux-amd64
     state: absent
   ignore_errors: true  
-
-- name: Remove existing file from usr-local-bin
-  ansible.builtin.file:
-    path: 
-      - /usr/local/bin/node_exporter
-    state: absent
-  ignore_errors: true
-
-- name: Remove existing file from etc
-  ansible.builtin.file:
-    path:
-      - /etc/systemd/system/node_exporter
-    state: absent
-  ignore_errors: true
-
 
 - name: Download node exporter files
   ansible.builtin.get_url:
@@ -116,22 +97,18 @@
     owner: node_exporter
     group: node_exporter
     mode: '0777'    
-    remote_src: yes
+    remote_src: yes    
 
 - name: Copy systemd file. 
   ansible.builtin.copy:
-    src:  /usr/local/bin/node_exporter
+    src:  node_exporter.service
     dest: /etc/systemd/system/
-    owner: node_exporter
-    group: node_exporter
-    mode: '0777' 
-    remote_src: yes
     
 
 - name: Enable and start the service
   ansible.builtin.systemd:
-    name: /etc/systemd/system/node_exporter
-    state: started
+    name: node_exporter
+    state: restarted
     enabled: true    
-    #daemon_reload: yes 
-  become_user: node_exporter
+    daemon_reload: yes        
+
