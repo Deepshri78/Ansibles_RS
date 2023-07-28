@@ -78,6 +78,20 @@
     state: absent
   ignore_errors: true  
 
+- name: Remove existing file from usr-local-bin
+  ansible.builtin.file:
+    path: 
+      - /usr/local/bin/node_exporter
+    state: absent
+  ignore_errors: true
+
+  - name: Remove existing file from etc
+  ansible.builtin.file:
+    path:
+      - /etc/systemd/system/node_exporter
+    state: absent
+  ignore_errors: true
+
 
 - name: Download node exporter files
   ansible.builtin.get_url:
@@ -90,7 +104,7 @@
     dest: /tmp/
     remote_src: yes
 
-- name: Copy node_exporter tp bin
+- name: Copy node_exporter to bin
   ansible.builtin.copy:
     src:  /tmp/node_exporter-1.5.0.linux-amd64/node_exporter
     dest: /usr/local/bin/
