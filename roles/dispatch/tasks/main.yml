@@ -174,3 +174,8 @@
     state: restarted
     enabled: true    
     daemon_reload: yes 
+
+- name: Import rsyslog role
+  ansible.builtin.include_role:
+    name: elk
+    tasks_from: rsyslog
